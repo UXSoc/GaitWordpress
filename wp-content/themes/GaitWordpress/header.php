@@ -27,8 +27,8 @@
 		<header id="header">
 			<nav id="site-navigation" class="navbar" role="navigation">
 				<div class="navbar-brand">
+					<img style="margin-left:0.25rem;" src="<?php echo get_template_directory_uri() . '/dist/gait_logo.svg' ?>"/>
 					<?php bulmapress_home_link('navbar-item'); ?>
-					<?php bulmapress_blog_description('navbar-item is-muted'); ?>
 					<?php bulmapress_menu_toggle(); ?>
 				</div>
 				<div class="navbar-menu">
