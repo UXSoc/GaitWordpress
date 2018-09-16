@@ -33,6 +33,28 @@
 				<?php get_template_part( 'template-parts/custom-landing', 'page' ); ?>
 			<?php endwhile; ?>
 		</div>
+    <section class="section">
+      <div class="container">
+        <h2 class="title is-2">What we do</h2>
+        <div class="columns">
+          <div class="column">
+            <img src="https://picsum.photos/1280/960"/>
+            <p class="title is-4">Research</p>
+            <div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</div>
+          </div>
+          <div class="column">
+            <img src="https://picsum.photos/1280/960"/>
+            <p class="title is-4">Research</p>
+            <div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</div>
+          </div>
+          <div class="column">
+            <img src="https://picsum.photos/1280/960"/>
+            <p class="title is-4">Research</p>
+            <div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</div>
+          </div>
+        </div>
+      </div>
+    </section>
 		<?php 
 		bulmapress_custom_query(array(
 			'post_type' => 'post',
