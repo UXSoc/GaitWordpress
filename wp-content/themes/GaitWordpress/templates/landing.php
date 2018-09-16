@@ -17,11 +17,44 @@
 
 <div id="primary" class="content-area landing">
 	<main id="main" class="site-main" role="main">
-		<div class="page has-text-centered">
+    <section class="hero is-info is-large">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Gait Rehabilitation and Research Lab
+          </h1>
+          <h2 class="subtitle">
+            Chapman University Rinker Campus
+          </h2>
+        </div>
+    </section>
+		<div class="page">
 			<?php while ( have_posts() ) : the_post(); ?>
-				<?php get_template_part( 'template-parts/content', 'page' ); ?>
+				<?php get_template_part( 'template-parts/custom-landing', 'page' ); ?>
 			<?php endwhile; ?>
 		</div>
+    <section class="section">
+      <div class="container">
+        <h2 class="title is-2">What we do</h2>
+        <div class="columns">
+          <div class="column">
+            <img src="https://picsum.photos/1280/960"/>
+            <p class="title is-4">Research</p>
+            <div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</div>
+          </div>
+          <div class="column">
+            <img src="https://picsum.photos/1280/960"/>
+            <p class="title is-4">Research</p>
+            <div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</div>
+          </div>
+          <div class="column">
+            <img src="https://picsum.photos/1280/960"/>
+            <p class="title is-4">Research</p>
+            <div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.</div>
+          </div>
+        </div>
+      </div>
+    </section>
 		<?php 
 		bulmapress_custom_query(array(
 			'post_type' => 'post',
