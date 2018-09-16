@@ -17,9 +17,20 @@
 
 <div id="primary" class="content-area landing">
 	<main id="main" class="site-main" role="main">
-		<div class="page has-text-centered">
+    <section class="hero is-info is-large">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Gait Rehabilitation and Research Lab
+          </h1>
+          <h2 class="subtitle">
+            Chapman University Rinker Campus
+          </h2>
+        </div>
+    </section>
+		<div class="page">
 			<?php while ( have_posts() ) : the_post(); ?>
-				<?php get_template_part( 'template-parts/content', 'page' ); ?>
+				<?php get_template_part( 'template-parts/custom-landing', 'page' ); ?>
 			<?php endwhile; ?>
 		</div>
 		<?php 
