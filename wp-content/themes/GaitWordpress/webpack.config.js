@@ -9,7 +9,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = {
-    entry: { main: './src/index.js' },
+    entry: {
+        main: './src/index.js',
+        admin: './src/admin.js'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].[hash].js'
