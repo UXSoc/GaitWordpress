@@ -58,6 +58,7 @@ module.exports = {
             configFile: './stylelint.config.js',
             files: './src/scss/*.scss',
             syntax: 'scss'
-        })
+        }),
+        new CopyWebpackPlugin(['assets'])
     ]
 };
