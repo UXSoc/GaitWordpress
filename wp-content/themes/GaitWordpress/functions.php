@@ -28,20 +28,19 @@ add_action( 'after_setup_theme', 'gait_setup' );
 
 if ( ! function_exists( 'gait_init' ) ) :
 function gait_init() {
-    require get_template_directory() . '/functions/admin/project_post_type.php';
+    require get_template_directory() . '/functions/admin/project-post-type.php';
 
 }
 endif;
 add_action( 'init', 'gait_init', 0 );
 
 
-if ( ! function_exists( 'gait_admin_init' ) ) :
-function gait_admin_init() {
-    require get_template_directory() . '/functions/admin/admin-script-style.php';
-
+if ( ! function_exists( 'gait_page_menu' ) ) :
+function gait_page_menu(){
+    require get_template_directory() . '/functions/admin/front-page-settings.php';
 }
+add_action('admin_menu','gait_page_menu');
 endif;
-add_action('admin_init', 'gait_admin_init');
 
 require get_template_directory() . '/functions/template-tags.php';
 require get_template_directory() . '/functions/extras.php';
