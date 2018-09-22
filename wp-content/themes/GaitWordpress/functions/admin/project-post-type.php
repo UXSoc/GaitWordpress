@@ -38,6 +38,30 @@ $args = array(
     'has_archive'           => true,
     'exclude_from_search'   => false,
     'publicly_queryable'    => true,
-    'capability_type'       => 'page',
+    'capability_type'       => 'page'
 );
 register_post_type( 'research_project', $args );
+
+function wporg_custom_box_html($post)
+{
+    ?>
+    <label for="wporg_field">Description for this field</label>
+    <select name="wporg_field" id="wporg_field" class="postbox">
+        <option value="">Select something...</option>
+        <option value="something">Something</option>
+        <option value="else">Else</option>
+    </select>
+    <?php
+}
+
+
+function wporg_add_custom_box()
+{
+    add_meta_box(
+        'project_post_relation',           // Unique ID
+        'Releated Articles',  // Box title
+        'wporg_custom_box_html',  // Content callback, must be of type callable
+        'research_project'                   // Post type
+    );
+}
+add_action('add_meta_boxes', 'wporg_add_custom_box');
