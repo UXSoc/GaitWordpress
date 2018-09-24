@@ -7,8 +7,8 @@ if ( ! function_exists( 'create_table_relation' ) ) :
 
         $sql = "CREATE TABLE `{$wpdb->base_prefix}post_research_project` (
             id mediumint(9) NOT NULL AUTO_INCREMENT,
-            research_post_id bigint(20) unsigned,
-            post_id bigint(20) unsigned,
+            research_post_id bigint(20) unsigned NOT NULL,
+            post_id bigint(20) unsigned NOT NULL UNIQUE,
             PRIMARY KEY  (id)
             ) $charset_collate;";
 

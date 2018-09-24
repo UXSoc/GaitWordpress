@@ -1,5 +1,8 @@
 <?php
 
+require_once get_template_directory() . '/functions/project-post-utility.php';
+
+
 $labels = array(
     'name'                  => _x( 'Research Projects', 'Post Type General Name', 'text_domain' ),
     'singular_name'         => _x( 'Research Project', 'Post Type Singular Name', 'text_domain' ),
@@ -42,26 +45,118 @@ $args = array(
 );
 register_post_type( 'research_project', $args );
 
-function wporg_custom_box_html($post)
+function post_list_custom_html($post)
 {
+
+    $nonce = wp_create_nonce( 'gait_query_research_post_' . get_the_ID() );
+    $posts = get_posts_for_research_project(get_the_ID());
     ?>
-    <label for="wporg_field">Description for this field</label>
-    <select name="wporg_field" id="wporg_field" class="postbox">
-        <option value="">Select something...</option>
-        <option value="something">Something</option>
-        <option value="else">Else</option>
-    </select>
+    <div id="gait_research_posts" data-nonce="<?php echo $nonce; ?>" data-post_id="<?php echo get_the_ID(); ?>">
+
+        <table class="linked-post">
+            <?php if($posts != null): foreach ($posts as $p): ?>
+                <tr>
+                    <td><button class="button" post_id="<?php echo $p->ID; ?>">Remove</button></td>
+                    <td><?php echo get_the_title($p->ID); ?></td>
+                </tr>
+            <?php endforeach; endif;?>
+        </table>
+        <input class="widefat" type="text" id="gait_post_search" >
+        <table class="post-search-container">
+        </table>
+
+    </div>
     <?php
 }
 
 
-function wporg_add_custom_box()
+
+function gait_add_custom_post_list()
 {
     add_meta_box(
         'project_post_relation',           // Unique ID
         'Releated Articles',  // Box title
-        'wporg_custom_box_html',  // Content callback, must be of type callable
+        'post_list_custom_html',  // Content callback, must be of type callable
         'research_project'                   // Post type
     );
 }
-add_action('add_meta_boxes', 'wporg_add_custom_box');
+add_action('add_meta_boxes', 'gait_add_custom_post_list');
+
+
+function gait_query_search_post()
+{
+    if (check_ajax_referer('gait_query_research_post_' . $_POST['research_post_id'], 'nonce', false) == false) {
+        wp_send_json_error();
+    }
+    $s = '';
+
+    if(isset($_POST['s']))
+        $s = $_POST['s'];
+
+    $posts = get_posts_for_research_project($_POST['research_post_id']);
+    $ids = [];
+    foreach ($posts as $p){
+        array_push($ids,$p->ID);
+    }
+
+    $loop = new WP_Query(array(
+        'post_type' => 'post',
+        'posts_per_page' => 10,
+        's' => $s,
+        'post__not_in' => $ids
+    ));
+
+
+
+    $response = [];
+
+    while ($loop->have_posts()) {
+        $loop->the_post();
+        array_push($response, array('id' => get_the_ID(), 'title' => get_the_title()));
+    }
+    wp_send_json_success($response);
+
+}
+
+add_action( 'wp_ajax_gait_query_search_post', 'gait_query_search_post');
+
+
+function gait_query_remove_post()
+{
+
+    if (check_ajax_referer('gait_query_research_post_' . $_POST['research_post_id'], 'nonce', false) == false) {
+        wp_send_json_error();
+    }
+    if(!remove_post_from_research_project($_POST['research_post_id'],$_POST['post_id'])){
+        wp_send_json_error();
+    }
+    wp_send_json_success(array());
+
+}
+add_action( 'wp_ajax_gait_query_remove_post', 'gait_query_remove_post' );
+
+
+function gait_query_add_post()
+{
+
+    if (check_ajax_referer('gait_query_research_post_' . $_POST['research_post_id'], 'nonce', false) == false) {
+        wp_send_json_error();
+    }
+
+    if(!add_post_to_research_project($_POST['research_post_id'],$_POST['post_id'])){
+        wp_send_json_error();
+    }
+    wp_send_json_success(array('target_id' => $_POST['post_id']));
+
+}
+add_action( 'wp_ajax_gait_query_add_post', 'gait_query_add_post' );
+
+
+
+add_action( 'before_delete_post', 'gait_delete_post' );
+function gait_delete_post($postid){
+    global $wpdb;
+    $wpdb->delete($wpdb->prefix.'post_research_project', array( 'research_post_id' => $postid ) );
+    $wpdb->delete($wpdb->prefix.'post_research_project', array( 'post_id' => $postid) );
+}
+
