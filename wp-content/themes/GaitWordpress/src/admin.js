@@ -85,7 +85,7 @@ import $ from 'jquery'
         }
         search_post(root,'');
 
-        $(this).find('#gait_post_search').change(function () {
+        $(this).find('#gait_post_search').on("input",function () {
             search_post(root,$(this).val());
         });
 

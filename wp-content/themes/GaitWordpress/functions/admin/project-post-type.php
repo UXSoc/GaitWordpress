@@ -91,28 +91,17 @@ function gait_query_search_post()
     $s = '';
 
     if(isset($_POST['s']))
-        $s = $_POST['s'];
-
-    $posts = get_posts_for_research_project($_POST['research_post_id']);
-    $ids = [];
-    foreach ($posts as $p){
-        array_push($ids,$p->ID);
-    }
-
-    $loop = new WP_Query(array(
-        'post_type' => 'post',
-        'posts_per_page' => 10,
-        's' => $s,
-        'post__not_in' => $ids
-    ));
+        $s = esc_sql($_POST['s']);
 
 
+    global $wpdb;
+    $sql = "SELECT p.ID as ID, p.post_title as post_title FROM `{$wpdb->base_prefix}posts` p WHERE p.post_title LIKE '%{$s}%'AND p.post_status='publish' AND p.post_type='post' AND p.ID NOT IN (SELECT post_id FROM `{$wpdb->base_prefix}post_research_project` as p_r WHERE p_r.post_id = p.ID) LIMIT 10";
+    $posts = $wpdb->get_results($sql);
 
     $response = [];
 
-    while ($loop->have_posts()) {
-        $loop->the_post();
-        array_push($response, array('id' => get_the_ID(), 'title' => get_the_title()));
+    foreach ( (array) $posts as $p) {
+        array_push($response, array('id' => $p->ID, 'title' => $p->post_title));
     }
     wp_send_json_success($response);
 

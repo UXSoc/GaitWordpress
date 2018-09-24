@@ -7,7 +7,7 @@
  * @package Bulmapress
  */
 
-
+require_once get_template_directory() . '/functions/project-post-utility.php';
 require get_template_directory() . '/functions/project-post-relation.php';
 require get_template_directory() . '/functions/bulmapress_navwalker.php';
 require get_template_directory() . '/functions/bulmapress_helpers.php';
