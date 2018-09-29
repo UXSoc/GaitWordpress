@@ -155,4 +155,6 @@ function gait_admin_home_script_style()
     register_setting( 'gait-front-page-settings', 'gait_front_page_third_3_image' );
 
 
+
+
 }
